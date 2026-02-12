@@ -1,0 +1,70 @@
+Home Assistant
+
+home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+
+Logs
+
+home-assistant.log
+home-assistant.log.*
+
+Backups / Snapshots
+
+/backups/
+/snapshots/
+
+Secrets
+
+secrets.yaml
+*.key
+*.pem
+*.crt
+
+SSL / DuckDNS / Nginx
+
+ssl/
+letsencrypt/
+nginx/ssl/
+
+ESPHome build files
+
+.esphome/
+*.bin
+*.elf
+*.map
+
+Python
+
+pycache/
+*.pyc
+
+OS
+
+.DS_Store
+Thumbs.db
+
+IDE
+
+.vscode/
+.idea/
+
+Node / HACS frontend builds
+
+node_modules/
+dist/
+
+Temporary
+
+*.tmp
+*.bak
+*.old
+
+Recorder exports
+
+*.csv
+*.xlsx
+
+Personal configs
+
+configuration_local.yaml
