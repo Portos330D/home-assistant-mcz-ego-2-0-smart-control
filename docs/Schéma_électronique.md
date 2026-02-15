@@ -55,7 +55,7 @@ Chaque ligne GPIO pilote :
 
 > Schéma réalisé sous Fusion Electronics.
 
-![Schéma interface télécommande RF](docs/Schéma%20pcb%20mcz.png)
+![Schéma interface télécommande RF](docs/Schéma_pcb_mcz.png)
 
 ---
 
