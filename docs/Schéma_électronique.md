@@ -75,6 +75,16 @@ Chaque ligne GPIO pilote :
 
 ---
 
+## 📡 Télécommande d’origine MCZ
+
+### Carte interne
+
+![Télécommande nue](images/telecommande_nue_1.jpg)
+
+![Télécommande nue 2](images/telecommande_nue_2.jpg)
+
+---
+
 ### 📌 Notes d’intégration
 
 - Vérifier le sens collecteur / émetteur des optocoupleurs
