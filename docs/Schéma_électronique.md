@@ -59,6 +59,22 @@ Chaque ligne GPIO pilote :
 
 ---
 
+## 🔧 Carte de commande
+
+### Assemblage
+
+![PCB assemblage](images/pcb_assemblage_1.jpg)
+
+![PCB assemblage 2](images/pcb_assemblage_2.jpg)
+
+![PCB assemblage 3](images/pcb_assemblage_3.jpg)
+
+### Détail optocoupleurs
+
+![PCB détail](images/pcb_detail.jpg)
+
+---
+
 ### 📌 Notes d’intégration
 
 - Vérifier le sens collecteur / émetteur des optocoupleurs
