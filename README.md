@@ -143,7 +143,13 @@ Projet **non affilié à MCZ**.
 Utilisation à vos risques :
 
 - Mauvaise configuration = risque de surchauffe  
-- Toujours conserver les sécurités d’origine du poêle  
+- Toujours conserver les sécurités d’origine du poêle
+
+---
+
+## 🖥️ Interface Home Assistant
+
+![Dashboard poêle](docs/images/Tableau_de_bord_ha.png)
 
 ---
 
