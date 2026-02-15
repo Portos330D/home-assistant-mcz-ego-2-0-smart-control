@@ -153,6 +153,18 @@ Utilisation à vos risques :
 
 ---
 
+## 🖨️ Intégration & boîtier 3D
+
+### Montage final
+
+![Support 3D 1](images/support_3d_1.jpg)
+
+![Support 3D 2](images/support_3d_2.jpg)
+
+![Support 3D 3](images/support_3d_3.jpg)
+
+---
+
 ## 📜 Licence
 
 Licence **MIT** — libre d’utilisation et de modification.
