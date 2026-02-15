@@ -1,141 +1,181 @@
-🔥 MCZ Ego 2.0 — Smart Control via Home Assistant
+🪵 MCZ Eco 2.0 — Smart Control via Home Assistant
 
-Projet complet de gestion domotique intelligente d’un poêle à pellets MCZ Eco 2.0 piloté via télécommande RF non connectée.
+Système complet de pilotage intelligent pour poêle à pellets MCZ Eco 2.0 basé sur Home Assistant, utilisant l’émulation de télécommande RF pour automatiser la gestion thermique, la ventilation, la sécurité et la consommation.
 
----
+🎯 Objectif du projet
 
-⚠️ Particularité du projet
+Ce projet permet de rendre 100 % domotisable un poêle MCZ Eco 2.0 non connecté, via :
 
-Le poêle n’est pas connecté nativement.
+Pilotage RF automatisé
 
-Contrôle réalisé via :
+Gestion adaptative de la température
 
-- Télécommande RF d’origine
-- Reproduction des commandes
-- Pilotage IR / RF via Home Assistant
-- Scripts d’émulation boutons
+Anticipation des démarrages
 
-👉 Aucun accès direct au firmware MCZ.
+Sécurité pellets
 
----
+Détection remplissage
 
-🎯 Objectifs
+Calcul d’autonomie
 
-- Chauffage adaptatif intelligent
-- Anticipation thermique matin / soir
-- Gestion automatique flamme + ventilation
-- Sécurité niveau pellets
-- Détection remplissage trémie
-- Calcul autonomie temps réel
-- Dashboard supervision complet
+Dashboard temps réel
 
----
+🔧 Installation matérielle
 
-🧠 Logique de fonctionnement
+Configuration utilisée :
 
-Le système ajuste automatiquement :
+Poêle : MCZ Eco 2.0
 
-- Niveau de flamme (1 → 5)
-- Ventilation (1 → 5)
-- Heures de démarrage
-- Temps d’anticipation
-- Boost thermique
+Télécommande : RF d’origine (non connectée)
 
-Selon :
+Méthode de contrôle : pont RF / IR émulé (séquences de touches)
 
-- Température salon
-- Température cible
-- Vitesse de chauffe estimée
-- Niveau pellets
-- Heure / nuit
-- Semaine vs week-end
+Capteur température salon : Tuya Wi-Fi
 
----
+Capteur niveau pellets : VL53L0X (ESPHome)
 
-🛠️ Architecture technique
+Hôte Home Assistant : VM Proxmox
 
-Équipement| Rôle
-Home Assistant| Cerveau logique
-ESPHome| Capteur pellets
-Capteur température| Référence thermique
-Télécommande RF| Interface poêle
-Scripts HA| Émulation boutons
+Supervision : Dashboard Lovelace personnalisé
 
----
+🧠 Fonctionnalités
+🔥 Gestion thermique intelligente
 
-📡 Pilotage du poêle
+Démarrage adaptatif matin
 
-Commandes reproduites :
+Démarrage adaptatif soir
 
-- ON / OFF
-- Flamme 1 → 5
-- Ventilation 1 → 5
-- Mode Auto
+Différenciation semaine / week-end
 
-Via scripts :
+Anticipation selon température réelle
 
-script.flamme_niveau_1 → 5
-script.ventilation_1 → 5
-script.poele_on_off
+Mode Boost automatique
 
----
+🌪️ Gestion flamme + ventilation fusionnée
+
+Pilotage synchronisé flamme / ventilation
+
+Adaptation selon écart température cible
+
+Limitation nocturne automatique
+
+Séquence RF temporisée
+
+Verrou anti-collision commandes
 
 🪵 Gestion pellets
 
-Capteur :
+Blocage démarrage si < 10 %
 
-- VL53L0X (distance laser)
-- Correction entonnoir
-- Calcul %
+Calcul autonomie restante
 
-Fonctions :
+Calcul consommation kg/h
 
-- Autonomie restante
-- Consommation kg/h
-- Détection remplissage
-- Compteur sacs
+Moyenne glissante 24 h
 
----
+📦 Détection remplissage
+
+Détection ajout sac pellets
+
+Anti faux-positifs (bras / entonnoir)
+
+Anti-spam temporel
+
+Incrément compteur sacs consommés
 
 🛡️ Sécurités intégrées
 
-- Blocage démarrage < 10 %
-- Anti double démarrage
-- Verrou commandes RF
-- Fallback température HS
-- Anti-spam réglages
+Fallback si capteur température indisponible
 
----
+Verrou commandes RF
+
+Anti-yoyo température (hystérésis)
+
+Anti redémarrage multiple
+
+Sécurité pellets bas
 
 📊 Dashboard inclus
 
-- Consigne température
-- Temps chauffe estimé
-- Démarrage calculé matin / soir
-- Niveau pellets %
-- Consommation temps réel
-- Autonomie restante
+Affichages disponibles :
 
----
+🌡️ Température salon
+
+🎯 Température cible
+
+⏱️ Temps de chauffe estimé
+
+🕒 Heure démarrage calculée
+
+🪵 Niveau pellets
+
+📦 Sacs consommés
+
+🔥 État poêle
+
+🚀 Boost actif
+
+⌛ Autonomie restante
+
+🛠 Automatisations incluses
+
+Démarrage matin FULL adaptatif
+
+Démarrage soir FULL adaptatif
+
+Arrêt programmé matin
+
+Arrêt programmé soir
+
+Gestion flamme intelligente
+
+Gestion ventilation intelligente
+
+Fusion flamme + ventilation
+
+Détection remplissage pellets
+
+Sécurité niveau pellets
+
+📂 Structure du dépôt
+
+automations/ → Logiques du poêle
+scripts/ → Commandes RF / IR
+helpers/ → Input / mémoires / verrous
+sensors/ → Capteurs calculés
+dashboard/ → Interface Lovelace
+docs/ → Documentation technique
 
 🚀 Installation
 
-1. Copier dossiers dans "/config/"
-2. Importer helpers
-3. Vérifier scripts RF
-4. Redémarrer Home Assistant
+Copier les fichiers YAML dans Home Assistant
 
----
+Créer les helpers nécessaires
 
-⚠️ Disclaimer
+Importer les automatisations
 
-Projet non officiel MCZ.
+Adapter les entity_id
 
-Aucune modification interne du poêle.
-Pilotage externe uniquement via télécommande.
+Lier les scripts RF à votre pont
 
----
+⚠️ Avertissement
 
+Projet non affilié à MCZ.
+
+Utilisation à vos risques :
+
+Mauvaise configuration = surchauffe possible
+
+Toujours conserver les sécurités d’origine du poêle
+
+📜 Licence
+
+MIT License — libre d’utilisation et de modification.
+
+🤝 Contribution
+
+Projet personnel évolutif.
+Les améliorations, retours et idées sont les bienvenus.
 📌 Auteur
 
 Projet domotique personnel avancé — optimisation thermique pellets.
