@@ -157,11 +157,11 @@ Utilisation à vos risques :
 
 ### Montage final
 
-![Support 3D 1](images/support_3d_1.jpg)
+![Support 3D 1](docs/images/support_3d_1.jpg)
 
-![Support 3D 2](images/support_3d_2.jpg)
+![Support 3D 2](docs/images/support_3d_2.jpg)
 
-![Support 3D 3](images/support_3d_3.jpg)
+![Support 3D 3](docs/images/support_3d_3.jpg)
 
 ---
 
