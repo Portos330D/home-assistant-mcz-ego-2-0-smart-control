@@ -1,43 +1,37 @@
-🪵 MCZ Eco 2.0 — Smart Control via Home Assistant
+🪵 MCZ EGO 2.0 — Smart Control via Home Assistant
 
-Système complet de pilotage intelligent pour poêle à pellets MCZ Eco 2.0 basé sur Home Assistant, utilisant l’émulation de télécommande RF pour automatiser la gestion thermique, la ventilation, la sécurité et la consommation.
+Système complet de pilotage intelligent pour poêle à pellets MCZ EGO 2.0 basé sur Home Assistant, utilisant l’émulation de télécommande RF pour automatiser la gestion thermique, la ventilation, la sécurité et la consommation.
 
 🎯 Objectif du projet
 
-Ce projet permet de rendre 100 % domotisable un poêle MCZ Eco 2.0 non connecté, via :
+Rendre un poêle MCZ EGO 2.0 non connecté entièrement domotisable grâce à Home Assistant :
 
-Pilotage RF automatisé
+🔁 Pilotage RF automatisé
 
-Gestion adaptative de la température
+🌡️ Gestion thermique adaptative
 
-Anticipation des démarrages
+⏱️ Anticipation des démarrages
 
-Sécurité pellets
+🪵 Sécurité niveau pellets
 
-Détection remplissage
+📦 Détection remplissage
 
-Calcul d’autonomie
+📊 Calcul d’autonomie
 
-Dashboard temps réel
+🖥️ Dashboard temps réel
 
 🔧 Installation matérielle
 
 Configuration utilisée :
 
-Poêle : MCZ Eco 2.0
-
-Télécommande : RF d’origine (non connectée)
-
-Méthode de contrôle : pont RF / IR émulé (séquences de touches)
-
-Capteur température salon : Tuya Wi-Fi
-
-Capteur niveau pellets : VL53L0X (ESPHome)
-
-Hôte Home Assistant : VM Proxmox
-
-Supervision : Dashboard Lovelace personnalisé
-
+Équipement	Modèle / Méthode
+Poêle	MCZ EGO 2.0
+Télécommande	RF d’origine
+Contrôle	Pont RF / IR émulé
+Température salon	Capteur Tuya Wi-Fi
+Niveau pellets	VL53L0X — ESPHome
+Hôte domotique	Home Assistant sur Proxmox
+Supervision	Dashboard Lovelace personnalisé
 🧠 Fonctionnalités
 🔥 Gestion thermique intelligente
 
@@ -59,13 +53,13 @@ Adaptation selon écart température cible
 
 Limitation nocturne automatique
 
-Séquence RF temporisée
+Séquences RF temporisées
 
 Verrou anti-collision commandes
 
 🪵 Gestion pellets
 
-Blocage démarrage si < 10 %
+Blocage démarrage si niveau < 10 %
 
 Calcul autonomie restante
 
@@ -141,7 +135,7 @@ Sécurité niveau pellets
 
 automations/ → Logiques du poêle
 scripts/ → Commandes RF / IR
-helpers/ → Input / mémoires / verrous
+helpers/ → Inputs / mémoires / verrous
 sensors/ → Capteurs calculés
 dashboard/ → Interface Lovelace
 docs/ → Documentation technique
@@ -156,7 +150,7 @@ Importer les automatisations
 
 Adapter les entity_id
 
-Lier les scripts RF à votre pont
+Lier les scripts RF à votre pont RF / IR
 
 ⚠️ Avertissement
 
@@ -164,17 +158,19 @@ Projet non affilié à MCZ.
 
 Utilisation à vos risques :
 
-Mauvaise configuration = surchauffe possible
+Mauvaise configuration = risque de surchauffe
 
 Toujours conserver les sécurités d’origine du poêle
 
 📜 Licence
 
-MIT License — libre d’utilisation et de modification.
+Licence MIT — libre d’utilisation et de modification.
 
 🤝 Contribution
 
 Projet personnel évolutif.
+
+Les améliorations, retours d’expérience et idées sont les bienvenus.
 Les améliorations, retours et idées sont les bienvenus.
 📌 Auteur
 
