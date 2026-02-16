@@ -84,22 +84,6 @@ Rendre un poêle **MCZ EGO 2.0 non connecté** entièrement domotisable grâce �
 
 ---
 
-## 📊 Dashboard inclus
-
-Affichages disponibles :
-
-- 🌡️ Température salon  
-- 🎯 Température cible  
-- ⏱️ Temps de chauffe estimé  
-- 🕒 Heure démarrage calculée  
-- 🪵 Niveau pellets  
-- 📦 Sacs consommés  
-- 🔥 État poêle  
-- 🚀 Boost actif  
-- ⌛ Autonomie restante  
-
----
-
 ## 🛠 Automatisations incluses
 
 - Démarrage matin FULL adaptatif  
@@ -148,6 +132,33 @@ Utilisation à vos risques :
 ---
 
 ## 🖥️ Interface Home Assistant
+
+📊 Dashboard Lovelace
+
+Ce projet inclut une vue complète Home Assistant pour la gestion du poêle MCZ Eco 2.0.
+
+Fonctionnalités
+
+- 🔥 Allumage / extinction sécurisé
+- 🚀 Boost démarrage automatique
+- 🌡️ Régulation intelligente température
+- 🌪️ Gestion ventilation dynamique
+- 🪵 Adaptation puissance selon niveau pellets
+- ⏰ Programmation matin / soir
+
+Installation
+
+1. Copier le fichier :
+
+lovelace/poele-dashboard.yaml
+
+2. L’importer dans Home Assistant :
+
+Paramètres → Tableaux de bord → Ajouter une vue YAML
+
+3. Adapter les entités selon votre installation.
+
+Aperçu
 
 ![Dashboard poêle](docs/images/Tableau_de_bord_ha.png)
 
