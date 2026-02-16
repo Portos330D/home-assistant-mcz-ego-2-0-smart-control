@@ -1,0 +1,26 @@
+alias: ⏹️ Poêle — Arrêt matin SEMAINE programmé
+description: >
+  Arrêt automatique matin semaine selon horaire défini
+
+triggers:
+  - trigger: time
+    at: input_datetime.arret_poele_matin_semaine
+
+conditions:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+
+  - condition: state
+    entity_id: binary_sensor.poele_en_chauffe
+    state: "on"
+
+actions:
+  - action: script.poele_on_off_securise
+
+mode: single
+max_exceeded: silent
