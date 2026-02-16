@@ -1,1 +1,167 @@
 
+⚠️ Sécurité & Avertissements — Projet MCZ Eco 2.0 Smart Control
+
+---
+
+🧾 Préambule
+
+Ce projet permet le pilotage domotique avancé d’un poêle à pellets MCZ Eco 2.0 via Home Assistant, en utilisant une télécommande RF modifiée et des microcontrôleurs ESP.
+
+Il s’agit d’un projet DIY (Do It Yourself) non officiel, développé à titre personnel et expérimental.
+
+---
+
+❗ Non affiliation fabricant
+
+Ce projet :
+
+- N’est pas affilié à MCZ
+- N’est pas certifié par le fabricant
+- N’est pas validé par un installateur agréé
+
+Toute modification du système de commande du poêle est réalisée sous la seule responsabilité de l’utilisateur.
+
+---
+
+⚡ Risques électriques
+
+Certaines parties du projet impliquent :
+
+- Alimentation USB / 5V / 3.3V
+- Modules relais / optocoupleurs
+- Modification interne de télécommande RF
+- Câblage électronique
+
+Risques possibles :
+
+- Court-circuit
+- Surchauffe composants
+- Détérioration matériel
+- Risque incendie en cas de mauvaise intégration
+
+👉 Toujours :
+
+- Utiliser des alimentations certifiées
+- Isoler les circuits
+- Vérifier les tensions avant branchement
+- Protéger les connexions
+
+---
+
+🔥 Risques liés au chauffage
+
+Le poêle à pellets est un appareil de combustion.
+
+Une mauvaise automatisation peut entraîner :
+
+- Surchauffe habitation
+- Surconsommation pellets
+- Allumages/extinctions répétés
+- Usure prématurée du poêle
+
+Des sécurités sont intégrées dans le projet :
+
+- Vérification température
+- Vérification niveau pellets
+- Verrou anti-collision IR
+- Délais de sécurité allumage
+- Température cible maximale
+
+⚠️ Malgré cela, l’utilisateur reste responsable de la supervision.
+
+---
+
+🧠 Supervision obligatoire
+
+Il est recommandé de :
+
+- Tester chaque automatisation manuellement
+- Vérifier les séquences IR
+- Surveiller les premières mises en chauffe
+- Contrôler les températures réelles
+
+Ne jamais déployer directement en production sans phase de test.
+
+---
+
+🛠️ Modifications matérielles
+
+Le projet peut inclure :
+
+- Ajout d’ESP32 / ESP8266
+- Intégration capteur VL53L0X
+- Ajout optocoupleurs
+- Réducteurs de tension
+- Soudures électroniques
+
+Toute modification interne :
+
+- Peut annuler la garantie
+- Peut endommager la télécommande
+- Doit être réalisée hors tension
+
+---
+
+📡 Dépendance réseau & domotique
+
+Le système dépend de :
+
+- Home Assistant
+- Wi-Fi
+- ESPHome
+- Capteurs domotiques
+
+En cas de panne :
+
+- Le poêle reste pilotable manuellement
+- La télécommande d’origine reste fonctionnelle
+
+👉 Le système domotique ne doit jamais être le seul moyen de contrôle.
+
+---
+
+🔐 Sécurité logicielle
+
+Recommandations :
+
+- Protéger l’accès Home Assistant
+- Utiliser HTTPS / VPN
+- Ne pas exposer ESP directement sur Internet
+- Sauvegarder régulièrement la configuration
+
+---
+
+📋 Responsabilité
+
+En utilisant ce projet, vous reconnaissez que :
+
+- Vous êtes responsable des modifications effectuées
+- Vous assumez les risques matériels et logiciels
+- Vous utilisez ce projet à vos propres risques
+
+L’auteur du projet ne peut être tenu responsable :
+
+- Des dommages matériels
+- Des pannes
+- Des incidents liés au chauffage
+- Des erreurs de configuration
+
+---
+
+✅ Bonnes pratiques recommandées
+
+✔ Tester en journée
+✔ Vérifier niveau pellets avant automatisation
+✔ Conserver contrôle manuel disponible
+✔ Surveiller consommation
+✔ Installer détecteurs de fumée fonctionnels
+
+---
+
+🔚 Conclusion
+
+Ce projet permet d’ajouter des fonctions avancées à un poêle non connecté, mais doit être utilisé avec prudence.
+
+La sécurité thermique et électrique doit toujours rester prioritaire sur le confort domotique.
+
+---
