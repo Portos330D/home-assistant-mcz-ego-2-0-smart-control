@@ -1,0 +1,14 @@
+alias: 🚀 Boost démarrage poêle adaptatif
+description: Met flamme + ventilation au max puis laisse régulation
+mode: single
+sequence:
+  - target:
+      entity_id: input_boolean.verrou_reglage_poele
+    action: input_boolean.turn_off
+  - action: script.flamme_niveau_5_max
+  - action: script.ventilation_5
+  - delay: "00:20:00"
+  - action: script.ventilation_auto
+  - target:
+      entity_id: input_boolean.verrou_reglage_poele
+    action: input_boolean.turn_on
