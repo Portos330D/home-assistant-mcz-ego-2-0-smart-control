@@ -1,0 +1,48 @@
+
+alias: 🔥 Poêle — Démarrage matin SEMAINE FULL adaptatif
+description: >
+  Anticipation température + heure cible semaine + boost auto + sécurité pellets
+
+triggers:
+  - trigger: time_pattern
+    minutes: "/1"
+
+conditions:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+
+  - condition: state
+    entity_id: binary_sensor.poele_en_chauffe
+    state: "off"
+
+  - condition: numeric_state
+    entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+    above: 10
+
+  - condition: template
+    value_template: >
+      {{ now().strftime('%H:%M')
+         == states('sensor.heure_demarrage_calculee_poele') }}
+
+actions:
+  - action: script.poele_on_off_securise
+
+  - delay: "00:02:00"
+
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ states('sensor.temperature_salon_securisee') | float(20)
+                 <
+                 states('input_number.temperature_cible_poele') | float(20) - 2 }}
+        sequence:
+          - action: script.boost_demarrage_poele_adaptatif
+
+mode: single
+max_exceeded: silent
