@@ -1,0 +1,17 @@
+alias: 🔄 Sortie menu horloge poêle
+mode: single
+sequence:
+  - delay: "00:00:10"
+  - repeat:
+      count: 5
+      sequence:
+        - target:
+            entity_id: switch.telecommande_poele_poele_enter
+          action: switch.turn_on
+        - delay: "00:00:00.5"
+        - target:
+            entity_id: switch.telecommande_poele_poele_enter
+          action: switch.turn_off
+        - delay: "00:00:02"
+description: ""
+
