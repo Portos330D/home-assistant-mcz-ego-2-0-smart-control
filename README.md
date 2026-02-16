@@ -29,8 +29,105 @@ Rendre un poêle **MCZ EGO 2.0 non connecté** entièrement domotisable grâce �
 | Contrôle | Pont RF / IR émulé |
 | Température salon | Capteur Tuya Wi-Fi |
 | Niveau pellets | VL53L0X — ESPHome |
-| Hôte domotique | Home Assistant sur Proxmox |
-| Supervision | Dashboard Lovelace personnalisé |
+
+## 🧰 Matériel utilisé
+
+### 🔌 Optocoupleur
+
+**Rôle :**  
+Permet d’isoler électriquement les commandes envoyées par l’ESP / relais vers la télécommande RF du poêle MCZ.
+
+**Utilisé pour :**
+- ON / OFF poêle
+- Navigation menu
+- Simulation boutons télécommande
+
+**🔗 Produit :**  
+https://a.aliexpress.com/_EH5B23W
+
+---
+
+### 📏 Capteur de distance — VL53L0X
+
+**Rôle :**  
+Capteur laser Time-of-Flight utilisé pour mesurer la hauteur de pellets dans la trémie.
+
+**Permet de calculer :**
+- % de remplissage
+- Kg restants
+- Autonomie
+- Détection remplissage sac
+
+**🔗 Produit :**  
+https://a.aliexpress.com/_EG5FWQk
+
+---
+
+### 🔋 Réducteur de tension (Step-Down)
+
+**Rôle :**  
+Convertisseur DC-DC permettant d’abaisser une tension (ex : 12V) vers :
+
+- 5V  
+- 3.3V  
+
+**Utilisé pour alimenter :**
+- ESP32 / ESP8266
+- Capteurs
+- Modules relais
+
+**🔗 Produit :**  
+https://a.aliexpress.com/_EJ90bfS
+
+---
+
+### 🖥️ Module / Carte électronique
+
+**Rôle :**  
+Module électronique utilisé dans le projet (interface / traitement / support matériel selon montage exact).
+
+👉 À détailler selon la configuration matérielle utilisée.
+
+**🔗 Produit :**  
+https://a.aliexpress.com/_EJ3c2jA
+
+---
+
+### 🧮 Résistances
+
+**Rôle :**  
+Utilisées pour :
+
+- Pull-up / Pull-down
+- Protection GPIO
+- Adaptation tension signaux
+- Circuits optocoupleurs
+
+**🔗 Produit :**  
+https://a.aliexpress.com/_EwOxeic
+
+### 🧠 Microcontrôleur — ESP32
+
+**Rôle :**  
+Microcontrôleur principal du projet, utilisé pour piloter les commandes, capteurs et automatisations.
+
+Il assure :
+
+- Communication avec Home Assistant (API / MQTT)
+- Exécution des scripts ESPHome
+- Pilotage optocoupleurs / relais
+- Gestion capteurs (VL53L0X, température, etc.)
+- Automatisations locales sécurisées
+
+**Fonctions utilisées dans le projet :**
+
+- Simulation boutons télécommande
+- Gestion séquences d’allumage
+- Calibration flamme / ventilation
+- Supervision état système
+
+**🔗 Produit :**  
+https://a.aliexpress.com/_EHOsCpa
 
 ---
 
