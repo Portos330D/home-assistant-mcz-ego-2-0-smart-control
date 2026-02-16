@@ -1,70 +1,150 @@
-Home Assistant
-
-home-assistant_v2.db
-home-assistant_v2.db-shm
-home-assistant_v2.db-wal
-
-Logs
-
-home-assistant.log
-home-assistant.log.*
-
-Backups / Snapshots
-
-/backups/
-/snapshots/
-
-Secrets
+# ============================================================
+# 🔐 SECRETS & DONNÉES SENSIBLES
+# ============================================================
 
 secrets.yaml
 *.key
 *.pem
 *.crt
+*.csr
 
-SSL / DuckDNS / Nginx
-
+# Certificats SSL / DuckDNS / Nginx
 ssl/
 letsencrypt/
 nginx/ssl/
 
-ESPHome build files
+# Clés API / tokens éventuels
+*.env
+.env
+
+# ============================================================
+# 🏠 BASE DE DONNÉES HOME ASSISTANT
+# ============================================================
+
+home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+
+# Anciennes DB
+home-assistant.db
+home-assistant.db-shm
+home-assistant.db-wal
+
+# Zigbee / Matter / Thread DB
+zigbee.db
+matter_server.db
+
+# Recorder exports
+*.csv
+*.xlsx
+
+# ============================================================
+# 🧾 LOGS
+# ============================================================
+
+home-assistant.log
+home-assistant.log.*
+
+*.log
+
+# ============================================================
+# 💾 BACKUPS / SNAPSHOTS
+# ============================================================
+
+/backups/
+/snapshots/
+/backup/
+
+# ============================================================
+# ⚙️ ESPHOME — FICHIERS DE BUILD
+# ============================================================
 
 .esphome/
 *.bin
 *.elf
 *.map
+*.hex
 
-Python
+# Firmware exports
+firmware/
+build/
 
-pycache/
+# ============================================================
+# 🐍 PYTHON
+# ============================================================
+
+__pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-OS
+# ============================================================
+# 🖥️ SYSTÈME D’EXPLOITATION
+# ============================================================
 
 .DS_Store
 Thumbs.db
+desktop.ini
 
-IDE
+# ============================================================
+# 🧠 IDE / ÉDITEURS
+# ============================================================
 
 .vscode/
 .idea/
+*.code-workspace
 
-Node / HACS frontend builds
+# ============================================================
+# 🌐 NODE / HACS / FRONTEND
+# ============================================================
 
 node_modules/
 dist/
+build/
+.cache/
 
-Temporary
+# ============================================================
+# 🧪 FICHIERS TEMPORAIRES
+# ============================================================
 
 *.tmp
 *.bak
 *.old
+*.swp
+*.swo
 
-Recorder exports
+# ============================================================
+# 📊 EXPORTS / STATS
+# ============================================================
 
-*.csv
-*.xlsx
+*.sqlite
+*.db-journal
 
-Personal configs
+# ============================================================
+# 🏠 CONFIGS LOCALES PERSO
+# ============================================================
 
 configuration_local.yaml
+configuration_local.yml
+
+# Addons config locaux
+addons_config/
+
+# Médias / snapshots caméras
+media/
+www/camera_snapshots/
+www/tmp/
+
+# ============================================================
+# 📦 DOCKER / CONTAINERS
+# ============================================================
+
+docker-compose.override.yml
+
+# ============================================================
+# 🧬 AUTRES
+# ============================================================
+
+*.zip
+*.tar
+*.gz
