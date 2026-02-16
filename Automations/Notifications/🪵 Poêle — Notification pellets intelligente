@@ -1,29 +1,70 @@
 alias: 🪵 Poêle — Notification pellets intelligente
-description: >
-  Alerte niveau pellets bas avec seuil adaptatif + anti-spam journalier
-
-trigger:
-  - platform: numeric_state
-    entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
-    below: 25
-
-condition:
-  - condition: state
-    entity_id: input_boolean.notification_pellets_envoyee
-    state: "off"
-
-action:
-  - service: telegram_bot.send_message
-    data:
-      message: >
-        ⚠️ Niveau de pellets bas
-
-        📊 Niveau actuel : {{ states('sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige') }} %
-
-        🔥 Pense à remplir la trémie pour éviter l’arrêt du poêle.
-
-  - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.notification_pellets_envoyee
-
+description: Notif unique par seuil 30 / 15 / 5 %
+triggers:
+  - entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+    below: 30
+    trigger: numeric_state
+  - entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+    below: 15
+    trigger: numeric_state
+  - entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+    below: 5
+    trigger: numeric_state
+actions:
+  - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+            below: 5
+          - condition: state
+            entity_id: input_boolean.notif_pellet_5
+            state: "off"
+        sequence:
+          - data:
+              message: |
+                🚨 Pellet critique !
+                Niveau : {{ niveau }} %
+            action: telegram_bot.send_message
+          - target:
+              entity_id: input_boolean.notif_pellet_5
+            action: input_boolean.turn_on
+      - conditions:
+          - condition: numeric_state
+            entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+            below: 15
+          - condition: state
+            entity_id: input_boolean.notif_pellet_15
+            state: "off"
+        sequence:
+          - data:
+              message: |
+                ⚠️ Pellet faible
+                Niveau : {{ niveau }} %
+            action: telegram_bot.send_message
+          - target:
+              entity_id: input_boolean.notif_pellet_15
+            action: input_boolean.turn_on
+      - conditions:
+          - condition: numeric_state
+            entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+            below: 30
+          - condition: state
+            entity_id: input_boolean.notif_pellet_30
+            state: "off"
+        sequence:
+          - data:
+              message: |
+                ℹ️ Pellet à surveiller
+                Niveau : {{ niveau }} %
+            action: telegram_bot.send_message
+          - target:
+              entity_id: input_boolean.notif_pellet_30
+            action: input_boolean.turn_on
 mode: single
+variables:
+  niveau: |
+    {{ states('sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige')
+       | float(0)
+       | round(1)
+       | string
+       | replace('.', ',') }}
