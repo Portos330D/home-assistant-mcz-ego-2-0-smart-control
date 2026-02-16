@@ -272,6 +272,81 @@ Aperçu
 ![Support 3D 3](docs/images/support_3d_3.jpg)
 
 Lien vers le boitier et support en impression 3D: (https://cults3d.com/fr/mod%C3%A8le-3d/maison/support-telecommande-boitier-pcb-mcz-ego-2-0-smart-control-home-assistant)
+
+---
+
+### 📏 Capteur de niveau pellets — VL53L0X (ToF)
+
+**Rôle :**  
+Capteur laser Time-of-Flight utilisé pour mesurer la hauteur de pellets dans la trémie du poêle.
+
+Il permet une mesure sans contact, fiable même avec :
+
+- Poussière
+- Forme irrégulière des pellets
+- Entonnoir de chute
+
+---
+
+### 🧠 Données calculées
+
+Grâce aux calculs Home Assistant / ESPHome :
+
+- % de remplissage
+- Kg restants
+- Autonomie restante
+- Consommation kg/h
+- Détection ajout sac
+- Historique de niveau
+
+---
+
+### 🧱 Intégration mécanique
+
+Le capteur est monté :
+
+- En partie haute de la trémie
+- Orienté verticalement vers les pellets
+- Dans un support imprimé 3D
+- Avec passage de câble latéral
+
+Montage sans contact direct avec le combustible.
+
+---
+
+### 🖨️ Support 3D utilisé
+
+Support compatible VL53L0X imprimé en 3D permettant :
+
+- Fixation propre dans la trémie
+- Protection du capteur
+- Maintien de l’angle de mesure
+
+**🔗 Modèle Thingiverse :**  
+https://www.thingiverse.com/b487a4c7-b92a-4e0d-969d-48f4934fa842
+
+---
+
+### ⚙️ Caractéristiques capteur
+
+- Technologie : Laser ToF
+- Portée : ~2 m max
+- Précision : ±3 mm
+- Interface : I²C
+- Alimentation : 3.3 V / 5 V
+
+---
+
+### 📸 Exemple d’intégration
+
+Capteur installé dans la trémie avec support imprimé 3D, permettant une mesure continue du niveau de pellets sans modification du poêle.
+
+---
+
+### 🔗 Produit capteur
+
+https://a.aliexpress.com/_EG5FWQk
+
 ---
 
 ## 📜 Licence
