@@ -129,6 +129,59 @@ Il assure :
 **🔗 Produit :**  
 https://a.aliexpress.com/_EHOsCpa
 
+### 🧠 Microcontrôleur — ESP32 (Capteur de niveau pellets)
+
+**Rôle :**  
+Microcontrôleur principal utilisé pour piloter le capteur de niveau pellets et remonter les données vers Home Assistant via ESPHome.
+
+Il assure :
+
+- Lecture du capteur VL53L0X (I²C)
+- Calcul du niveau pellets (%)
+- Conversion en kg restants
+- Corrections entonnoir
+- Détection trémie ouverte
+- Transmission Wi-Fi temps réel
+
+---
+
+### 🧩 Fonctions utilisées dans le projet
+
+- Interface capteur laser ToF
+- Calcul embarqué du niveau
+- Envoi données vers Home Assistant
+- Automatisations locales sécurisées
+- Supervision du stock pellets
+
+---
+
+### ⚙️ Caractéristiques principales
+
+- Wi-Fi intégré
+- Bluetooth BLE
+- Alimentation 5V USB ou 3.3V
+- Compatible ESPHome
+- Support I²C natif
+
+---
+
+### 🔌 Connexions utilisées
+
+| ESP32 | VL53L0X |
+|------|---------|
+| 3V3  | VCC     |
+| GND  | GND     |
+| GPIO4 | SDA    |
+| GPIO3 | SCL    |
+
+(Adaptable selon configuration)
+
+---
+
+### 🔗 Produit
+
+https://a.aliexpress.com/_ExFrwD2
+
 ---
 
 ## 🧠 Fonctionnalités
