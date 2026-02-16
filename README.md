@@ -339,7 +339,7 @@ https://www.thingiverse.com/b487a4c7-b92a-4e0d-969d-48f4934fa842
 
 ### 📸 Exemple d’intégration
 
-Capteur installé dans la trémie avec support imprimé 3D, permettant une mesure continue du niveau de pellets sans modification du poêle. (docs/images/vl53l0.jpg)
+Capteur installé dans la trémie avec support imprimé 3D, permettant une mesure continue du niveau de pellets sans modification du poêle. ![Capteur pellets VL53L0X](docs/images/vl53l0.jpg)
 
 ---
 
