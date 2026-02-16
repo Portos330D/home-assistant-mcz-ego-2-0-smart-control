@@ -174,6 +174,7 @@ Aperçu
 
 ![Support 3D 3](docs/images/support_3d_3.jpg)
 
+Lien vers le boitier et support en impression 3D: (https://cults3d.com/fr/mod%C3%A8le-3d/maison/support-telecommande-boitier-pcb-mcz-ego-2-0-smart-control-home-assistant)
 ---
 
 ## 📜 Licence
