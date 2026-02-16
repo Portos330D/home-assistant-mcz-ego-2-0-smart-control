@@ -1,0 +1,39 @@
+# ============================================================
+# 📊 STATISTIQUES CONSOMMATION PELLETS
+# ============================================================
+
+sensor:
+
+  # ------------------------------------------------------------
+  # 📉 DÉRIVÉE CONSOMMATION (kg/h temps réel)
+  # ------------------------------------------------------------
+  - platform: derivative
+    source: sensor.pellets_restants
+    name: conso_pellets_derivative
+    unique_id: conso_pellets_derivative
+    unit_time: h
+    round: 3
+    time_window: "00:10:00"
+
+  # ------------------------------------------------------------
+  # 📊 CONSOMMATION MOYENNE 24H
+  # ------------------------------------------------------------
+  - platform: statistics
+    name: conso_pellets_24h
+    unique_id: conso_pellets_24h
+    entity_id: sensor.conso_pellets_kg_h_reel
+    state_characteristic: mean
+    max_age:
+      hours: 24
+
+  # ------------------------------------------------------------
+  # 📊 CONSOMMATION MOYENNE 1H
+  # ------------------------------------------------------------
+  - platform: statistics
+    name: "Conso pellets kg 1h"
+    unique_id: conso_pellets_kg_1h
+    entity_id: sensor.conso_pellets_kg_h_reel
+    state_characteristic: mean
+    sampling_size: 60
+    max_age:
+      hours: 1
