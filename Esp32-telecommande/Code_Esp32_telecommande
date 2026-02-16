@@ -1,0 +1,228 @@
+# ============================================================
+# 🪵 MCZ EGO 2.0 — Télécommande RF ESPHome
+# ============================================================
+# Version SAFE publique (aucune donnée sensible)
+# ============================================================
+
+esphome:
+  name: telecommande-poele
+  friendly_name: Télécommande Poêle
+
+# ============================================================
+# 🧠 HARDWARE
+# ============================================================
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# ============================================================
+# 📡 LOGS / API / OTA
+# ============================================================
+
+logger:
+
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# ============================================================
+# 📶 WIFI
+# ============================================================
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Telecommande-Poele"
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+# ============================================================
+# 🎛️ BOUTONS TÉLÉCOMMANDE (Optocoupleurs)
+# ============================================================
+
+switch:
+
+  # 🔥 ON / OFF (appui long ~2.2 s)
+  - platform: gpio
+    id: poele_on_off
+    name: "Poêle ON OFF"
+    pin: GPIO14
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 2200ms
+      - switch.turn_off: poele_on_off
+
+  # ⚙️ SET
+  - platform: gpio
+    id: poele_set
+    name: "Poêle SET"
+    pin: GPIO32
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 200ms
+      - switch.turn_off: poele_set
+
+  # 🔄 MODE
+  - platform: gpio
+    id: poele_mode
+    name: "Poêle MODE"
+    pin: GPIO33
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 200ms
+      - switch.turn_off: poele_mode
+
+  # ✅ ENTER
+  - platform: gpio
+    id: poele_enter
+    name: "Poêle ENTER"
+    pin: GPIO25
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 200ms
+      - switch.turn_off: poele_enter
+
+  # ⬆️ HAUT
+  - platform: gpio
+    id: poele_haut
+    name: "Poêle HAUT"
+    pin: GPIO26
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 200ms
+      - switch.turn_off: poele_haut
+
+  # ⬇️ BAS
+  - platform: gpio
+    id: poele_bas
+    name: "Poêle BAS"
+    pin: GPIO27
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - delay: 200ms
+      - switch.turn_off: poele_bas
+
+# ============================================================
+# 🤖 SCRIPTS AUTOMATIQUES
+# ============================================================
+
+script:
+
+  # 🕒 Sortie menu horloge
+  - id: sortie_menu_horloge
+    mode: queued
+    then:
+      - delay: 10s
+      - repeat:
+          count: 5
+          then:
+            - switch.turn_on: poele_enter
+            - delay: 500ms
+            - switch.turn_off: poele_enter
+            - delay: 2s
+
+  # 🔥 Allumage poêle
+  - id: allumage_poele
+    mode: queued
+    then:
+      - switch.turn_on: poele_on_off
+      - delay: 5s
+
+  # 🔥 Calibration flamme MAX
+  - id: flamme_max
+    mode: queued
+    then:
+      - repeat:
+          count: 5
+          then:
+            - switch.turn_on: poele_haut
+            - delay: 400ms
+            - switch.turn_off: poele_haut
+            - delay: 1s
+
+  # 🌪️ Calibration ventilation MAX
+  - id: ventilation_max
+    mode: queued
+    then:
+      - switch.turn_on: poele_set
+      - delay: 2s
+      - repeat:
+          count: 5
+          then:
+            - switch.turn_on: poele_haut
+            - delay: 400ms
+            - switch.turn_off: poele_haut
+            - delay: 1s
+
+  # 🔙 Retour menu principal
+  - id: retour_menu
+    mode: queued
+    then:
+      - switch.turn_on: poele_enter
+      - delay: 500ms
+      - switch.turn_off: poele_enter
+
+  # ⚙️ Calibration complète
+  - id: calibration_complete
+    mode: queued
+    then:
+      - script.execute: flamme_max
+      - delay: 2s
+      - script.execute: ventilation_max
+      - delay: 2s
+      - script.execute: retour_menu
+
+  # 🚀 Initialisation complète
+  - id: init_poele
+    mode: queued
+    then:
+      - script.execute: sortie_menu_horloge
+      - delay: 2s
+      - script.execute: allumage_poele
+      - delay: 10s
+      - script.execute: calibration_complete
+
+# ============================================================
+# 🖲️ BOUTONS SCRIPTS (Home Assistant)
+# ============================================================
+
+button:
+
+  - platform: template
+    name: "Init Poêle"
+    icon: mdi:fire
+    on_press:
+      - script.execute: init_poele
+
+  - platform: template
+    name: "Sortie Menu Horloge"
+    icon: mdi:clock-end
+    on_press:
+      - script.execute: sortie_menu_horloge
+
+  - platform: template
+    name: "Calibration Complète"
+    icon: mdi:tune
+    on_press:
+      - script.execute: calibration_complete
+
+  - platform: template
+    name: "Flamme MAX"
+    icon: mdi:fire-circle
+    on_press:
+      - script.execute: flamme_max
+
+  - platform: template
+    name: "Ventilation MAX"
+    icon: mdi:fan
+    on_press:
+      - script.execute: ventilation_max
