@@ -1,104 +1,116 @@
-############################################################
-# 🔥 MCZ ECO 2.0 — Helpers requis
-# Projet : Home Assistant MCZ Eco 2.0 Smart Control
-############################################################
+############################################
+# 🔥 INPUT NUMBER
+############################################
 
-############################################################
-# 🔒 VERROU & SÉCURITÉ IR
-############################################################
+temperature_cible_poele:
+  name: Température cible poêle
+  min: 15
+  max: 25
+  step: 0.5
+  unit_of_measurement: "°C"
+  icon: mdi:thermometer
 
-input_boolean:
+flamme_actuelle:
+  name: Flamme actuelle
+  min: 1
+  max: 5
+  step: 1
+  icon: mdi:fire
 
-  verrou_reglage_poele:
-    name: 🔒 Verrou réglage poêle
-    icon: mdi:lock
-    unique_id: verrou_reglage_poele
+ventilation_actuelle:
+  name: Ventilation actuelle
+  min: 1
+  max: 5
+  step: 1
+  icon: mdi:fan
 
-  boost_poele_actif:
-    name: 🚀 Boost poêle actif
-    icon: mdi:rocket-launch
-    unique_id: boost_poele_actif
+############################################
+# 🕒 INPUT DATETIME
+############################################
 
-  ha_en_redemarrage:
-    name: 🔄 HA en redémarrage
-    icon: mdi:restart-alert
-    unique_id: ha_en_redemarrage
+derniere_action_poele:
+  name: Dernière action poêle
+  has_date: true
+  has_time: true
 
+horodatage_verrou_poele:
+  name: Horodatage verrou poêle
+  has_date: true
+  has_time: true
 
-############################################################
-# 🔥 MÉMOIRE NIVEAUX FLAMME / VENTILATION
-############################################################
+dernier_remplissage_pellets:
+  name: Dernier remplissage pellets
+  has_date: true
+  has_time: true
 
-input_number:
+############################################
+# ⏱️ PROGRAMMATION DÉMARRAGE
+############################################
 
-  flamme_actuelle:
-    name: 🔥 Niveau flamme actuel
-    icon: mdi:fire
-    min: 1
-    max: 5
-    step: 1
-    mode: box
-    unique_id: flamme_actuelle
+demarrage_poele_matin_semaine:
+  name: Démarrage matin semaine
+  has_date: false
+  has_time: true
 
-  ventilation_actuelle:
-    name: 🌪️ Niveau ventilation actuel
-    icon: mdi:fan
-    min: 1
-    max: 6
-    step: 1
-    mode: box
-    unique_id: ventilation_actuelle
+demarrage_poele_matin_weekend:
+  name: Démarrage matin week-end
+  has_date: false
+  has_time: true
 
+demarrage_poele_soir:
+  name: Démarrage soir
+  has_date: false
+  has_time: true
 
-############################################################
-# 🌡️ CONSIGNE TEMPÉRATURE
-############################################################
+############################################
+# ⏹️ PROGRAMMATION ARRÊT
+############################################
 
-  temperature_cible_poele:
-    name: 🌡️ Température cible poêle
-    icon: mdi:thermometer
-    min: 16
-    max: 24
-    step: 0.5
-    unit_of_measurement: "°C"
-    mode: box
-    unique_id: temperature_cible_poele
+arret_poele_matin_semaine:
+  name: Arrêt matin semaine
+  has_date: false
+  has_time: true
 
+arret_poele_matin_weekend:
+  name: Arrêt matin week-end
+  has_date: false
+  has_time: true
 
-############################################################
-# 🕒 HORODATAGES / ANTI-SPAM
-############################################################
+arret_poele_soir:
+  name: Arrêt soir
+  has_date: false
+  has_time: true
 
-input_datetime:
+############################################
+# 🔘 INPUT BOOLEAN
+############################################
 
-  derniere_action_poele:
-    name: 🕒 Dernière action poêle
-    has_date: true
-    has_time: true
-    unique_id: derniere_action_poele
+verrou_reglage_poele:
+  name: Verrou réglage poêle
+  icon: mdi:lock
 
-  horodatage_verrou_poele:
-    name: 🕒 Horodatage verrou poêle
-    has_date: true
-    has_time: true
-    unique_id: horodatage_verrou_poele
+boost_poele_actif:
+  name: Boost poêle actif
+  icon: mdi:rocket-launch
 
-  dernier_remplissage_pellets:
-    name: 🪵 Dernier remplissage pellets
-    has_date: true
-    has_time: true
-    unique_id: dernier_remplissage_pellets
+notification_pellets_envoyee:
+  name: Notification pellets envoyée
+  icon: mdi:bell-alert
 
+ha_en_redemarrage:
+  name: HA en redémarrage
+  icon: mdi:restart-alert
 
-############################################################
-# 📦 COMPTEUR PELLETS
-############################################################
+############################################
+# 📊 COUNTERS
+############################################
 
-counter:
+sacs_pellets_ajoutes:
+  name: Sacs pellets ajoutés
+  step: 1
+  icon: mdi:counter
 
-  sacs_pellets_ajoutes:
-    name: 📦 Sacs pellets ajoutés
-    icon: mdi:package-variant
-    step: 1
-    restore: true
-    unique_id: sacs_pellets_ajoutes
+sacs_pellets_consommes:
+  name: Sacs pellets consommés
+  step: 1
+  icon: mdi:counter
