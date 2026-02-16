@@ -1,0 +1,196 @@
+esphome:
+  name: niveau-pellet-vl53l0x
+  friendly_name: "Niveau pellet VL53L0X"
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+# ==========================
+# LOGS
+# ==========================
+logger:
+  level: DEBUG
+
+# ==========================
+# API HA
+# ==========================
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+# ==========================
+# WIFI
+# ==========================
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Pellet-Rescue"
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+# ==========================
+# I2C
+# ==========================
+i2c:
+  sda: 4
+  scl: 3
+  scan: true
+  frequency: 400000
+
+# ==========================
+# DISTANCE BRUTE FILTRÉE
+# ==========================
+sensor:
+
+  - platform: vl53l0x
+    name: "Distance pellets brute"
+    id: distance_brute
+    address: 0x29
+    update_interval: 5s
+    unit_of_measurement: "mm"
+    accuracy_decimals: 0
+
+    filters:
+
+      - multiply: 1000
+      - filter_out: nan
+
+      - lambda: |-
+          if (x < 40 || x > 600) {
+            return id(distance_brute).state;
+          } else {
+            return x;
+          }
+
+      - median:
+          window_size: 7
+          send_every: 1
+          send_first_at: 1
+
+      - round: 0
+
+# ==========================
+# KG BRUT CALIBRÉ PESÉES
+# ==========================
+  - platform: template
+    name: "Pellets restants (kg brut calibré)"
+    id: pellets_kg_brut
+    unit_of_measurement: "kg"
+    accuracy_decimals: 2
+    update_interval: 5s
+
+    lambda: |-
+      float d = id(distance_brute).state;
+
+      if (isnan(d)) return id(pellets_kg_brut).state;
+
+      if (d >= 458) return 0.0;
+
+      if (d >= 375)
+        return (458 - d) * (2.816 / (458 - 375));
+
+      if (d >= 304)
+        return 2.816 + (375 - d) * ((6.532 - 2.816) / (375 - 304));
+
+      if (d >= 247)
+        return 6.532 + (304 - d) * ((10.448 - 6.532) / (304 - 247));
+
+      if (d >= 180)
+        return 10.448 + (247 - d) * ((14.564 - 10.448) / (247 - 180));
+
+      if (d >= 122)
+        return 14.564 + (180 - d) * ((17.880 - 14.564) / (180 - 122));
+
+      return 17.880;
+
+# ==========================
+# % BRUT RÉEL
+# ==========================
+  - platform: template
+    name: "Niveau pellets"
+    id: niveau_pellets
+    unit_of_measurement: "%"
+    accuracy_decimals: 1
+    update_interval: 5s
+
+    lambda: |-
+      return (id(pellets_kg_brut).state / 17.880) * 100.0;
+
+# ==========================
+# CORRECTION ENTONNOIR
+# ==========================
+  - platform: template
+    name: "Niveau pellets corrigé"
+    id: niveau_corrige
+    unit_of_measurement: "%"
+    accuracy_decimals: 1
+    update_interval: 5s
+
+    lambda: |-
+      float p = id(niveau_pellets).state;
+
+      if (isnan(p)) return id(niveau_corrige).state;
+
+      float corrige;
+
+      if (p > 70) {
+        corrige = p * 1.05;
+      } else if (p > 40) {
+        corrige = p * 1.15;
+      } else if (p > 20) {
+        corrige = p * 1.25;
+      } else {
+        corrige = p * 1.35;
+      }
+
+      if (corrige > 100) corrige = 100;
+      if (corrige < 0) corrige = 0;
+
+      return corrige;
+
+# ==========================
+# KG CORRIGÉS UTILISATEUR
+# ==========================
+  - platform: template
+    name: "Pellets restants (kg réel)"
+    id: pellets_kg_reel
+    unit_of_measurement: "kg"
+    accuracy_decimals: 1
+    update_interval: 30s
+
+    lambda: |-
+      float p = id(niveau_corrige).state;
+
+      if (isnan(p)) return id(pellets_kg_reel).state;
+
+      return p * 17.880 / 100.0;
+
+# ==========================
+# DÉTECTION TRÉMIE OUVERTE
+# ==========================
+binary_sensor:
+
+  - platform: template
+    name: "Trémie ouverte"
+    id: tremie_ouverte
+    device_class: opening
+
+    lambda: |-
+      if (isnan(id(distance_brute).state)) {
+        return true;
+      } else {
+        return false;
+      }
+
+    filters:
+      - delayed_on: 3s
+      - delayed_off: 5s
