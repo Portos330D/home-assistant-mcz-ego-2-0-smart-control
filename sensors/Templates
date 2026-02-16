@@ -1,0 +1,242 @@
+# ============================================================
+# 🔥 MCZ EGO 2.0 — Suivi pellets & calculs intelligents
+# ============================================================
+
+template:
+
+  - sensor:
+
+      # --------------------------------------------------------
+      # 🪵 KG RESTANTS
+      # --------------------------------------------------------
+      - name: "Pellets restants"
+        unique_id: pellets_restants_kg
+        unit_of_measurement: "kg"
+        state_class: measurement
+        icon: mdi:weight-kilogram
+        state: >
+          {% set max = 18 %}
+          {% set pct = states('sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige') | float(0) %}
+          {{ (max * pct / 100) | round(1) }}
+
+      # --------------------------------------------------------
+      # ⌛ AUTONOMIE HEURES
+      # --------------------------------------------------------
+      - name: "Autonomie pellets restante"
+        unique_id: autonomie_pellets_heures
+        unit_of_measurement: "h"
+        icon: mdi:timer-sand
+        state: >
+          {% set kg = states('sensor.pellets_restants') | float(0) %}
+          {% set conso_reelle = states('sensor.conso_pellets_kg_h_reel') | float(0) %}
+          {% set conso_1h = states('sensor.conso_pellets_kg_1h') | float(0) %}
+          {% if conso_reelle > 0 %}
+            {{ (kg / conso_reelle) | round(1) }}
+          {% elif conso_1h > 0 %}
+            {{ (kg / conso_1h) | round(1) }}
+          {% else %}
+            unknown
+          {% endif %}
+
+      # --------------------------------------------------------
+      # 📅 AUTONOMIE JOURS
+      # --------------------------------------------------------
+      - name: "Autonomie pellets (jours)"
+        unique_id: autonomie_pellets_jours
+        unit_of_measurement: "d"
+        device_class: duration
+        state_class: measurement
+        icon: mdi:calendar-clock
+        state: >
+          {% set h = states('sensor.autonomie_pellets_restante') | float(0) %}
+          {{ (h / 24) | round(1) }}
+
+      # --------------------------------------------------------
+      # ⏱️ AUTONOMIE TEMPS RÉEL
+      # --------------------------------------------------------
+      - name: "Autonomie pellets temps réel"
+        unique_id: autonomie_pellets_heures_temps_reel
+        unit_of_measurement: "h"
+        icon: mdi:timer-sand
+        state: >
+          {% set kg = states('sensor.pellets_restants') | float(0) %}
+          {% set conso = states('sensor.conso_pellets_kg_h_reel') | float(0) %}
+          {% if conso > 0 %}
+            {{ (kg / conso) | round(1) }}
+          {% else %}
+            0
+          {% endif %}
+
+      # --------------------------------------------------------
+      # 📊 AUTONOMIE MOYENNE 24H
+      # --------------------------------------------------------
+      - name: "Autonomie pellets moyenne 24h"
+        unique_id: autonomie_pellets_24h
+        unit_of_measurement: "h"
+        state_class: measurement
+        icon: mdi:timer-sand
+        state: >
+          {% set kg = states('sensor.pellets_restants') | float(0) %}
+          {% set conso = states('sensor.conso_pellets_24h') | float(0) %}
+          {% if conso > 0 %}
+            {{ (kg / conso) | round(1) }}
+          {% else %}
+            unknown
+          {% endif %}
+
+      # --------------------------------------------------------
+      # 🔥 CONSOMMATION RÉELLE
+      # --------------------------------------------------------
+      - name: "Conso pellets kg/h réel"
+        unique_id: conso_pellets_kg_h_reel
+        unit_of_measurement: "kg/h"
+        state_class: measurement
+        icon: mdi:fire
+        state: >
+          {% set conso = states('sensor.conso_pellets_derivative') | float(0) %}
+          {% set last = states('sensor.conso_pellets_kg_h_reel') | float(0) %}
+          {% set poele = is_state('binary_sensor.poele_en_chauffe','on') %}
+          {% if not poele %}
+            {{ last }}
+          {% elif conso <= 0 %}
+            {{ last }}
+          {% elif conso > 3 %}
+            {{ last }}
+          {% else %}
+            {{ conso | round(2) }}
+          {% endif %}
+
+      # --------------------------------------------------------
+      # 🌡️ TEMPÉRATURE SÉCURISÉE
+      # --------------------------------------------------------
+      - name: "Température salon sécurisée"
+        unique_id: temperature_salon_securisee
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:shield-thermometer
+        state: >
+          {% set temp = states('sensor.thermometre_salle_tv_temperature') %}
+          {% set secours = states('input_number.temperature_cible_secours_poele') | float(19) %}
+          {% if temp not in ['unknown','unavailable','none',''] %}
+            {{ temp | float(0) }}
+          {% else %}
+            {{ secours }}
+          {% endif %}
+
+      # --------------------------------------------------------
+      # 📅 AUTONOMIE JOURS RÉEL
+      # --------------------------------------------------------
+      - name: "Autonomie pellets jours réel"
+        unique_id: autonomie_pellets_jours_reel
+        unit_of_measurement: "d"
+        device_class: duration
+        state_class: measurement
+        icon: mdi:calendar-clock
+        state: >
+          {% set h = states('sensor.autonomie_pellets_temps_reel') | float(0) %}
+          {{ (h / 24) | round(1) }}
+
+      # --------------------------------------------------------
+      # ⏱️ TEMPS CHAUFFE ESTIMÉ
+      # --------------------------------------------------------
+      - name: "Temps chauffe estimé poêle"
+        unique_id: temps_chauffe_estime_poele
+        unit_of_measurement: "min"
+        icon: mdi:timer-outline
+        state: >
+          {% set temp_actuelle = states('sensor.temperature_salon_securisee') | float(20) %}
+          {% set temp_cible = states('input_number.temperature_cible_poele') | float(20) %}
+          {% set ecart = temp_cible - temp_actuelle %}
+          {% if ecart <= 0 %}
+            0
+          {% else %}
+            {{ (ecart * 30) | round(0) }}
+          {% endif %}
+
+      # --------------------------------------------------------
+      # 🕒 HEURE DÉMARRAGE MATIN
+      # --------------------------------------------------------
+      - name: "Heure démarrage calculée poêle"
+        unique_id: heure_demarrage_calculee_poele
+        icon: mdi:clock-start
+        state: >
+          {% set semaine = states('input_datetime.heure_cible_matin_semaine')[0:5] %}
+          {% set weekend = states('input_datetime.heure_cible_matin_week_end')[0:5] %}
+          {% set cible = weekend if now().weekday() >= 5 else semaine %}
+          {% set chauffe = states('sensor.temps_chauffe_estime_poele') | int(0) %}
+          {% set h = cible.split(':')[0] | int %}
+          {% set m = cible.split(':')[1] | int %}
+          {% set total = (h*60 + m - chauffe) | int %}
+          {% if total < 0 %}
+            {% set total = 0 %}
+          {% endif %}
+          {% set hh = (total // 60) %}
+          {% set mm = (total % 60) %}
+          {{ "%02d:%02d" | format(hh, mm) }}
+
+      # --------------------------------------------------------
+      # 🕒 HEURE DÉMARRAGE SOIR
+      # --------------------------------------------------------
+      - name: "Heure démarrage calculée poêle soir"
+        unique_id: heure_demarrage_calculee_poele_soir
+        icon: mdi:clock-start
+        state: >
+          {% set cible = states('input_datetime.heure_cible_confort_soir')[0:5] %}
+          {% set chauffe = states('sensor.temps_chauffe_estime_poele') | int(0) %}
+          {% set h = cible.split(':')[0] | int %}
+          {% set m = cible.split(':')[1] | int %}
+          {% set total = (h*60 + m - chauffe) | int %}
+          {% if total < 0 %}
+            {% set total = 0 %}
+          {% endif %}
+          {% set hh = (total // 60) %}
+          {% set mm = (total % 60) %}
+          {{ "%02d:%02d" | format(hh, mm) }}
+
+      # --------------------------------------------------------
+      # 🛑 HEURE ARRÊT MATIN
+      # --------------------------------------------------------
+      - name: "Heure arrêt poêle matin"
+        unique_id: heure_arret_poele_matin
+        icon: mdi:clock-end
+        state: >
+          {% set wd = now().weekday() %}
+          {% if wd in [5,6] %}
+            {% set heure = states('input_datetime.arret_matin_week_end')[0:5] %}
+          {% else %}
+            {% set heure = states('input_datetime.arret_matin_semaine')[0:5] %}
+          {% endif %}
+          {{ heure if heure != 'unknown' else '08:00' }}
+
+
+# ============================================================
+# 📊 STATISTIQUES & DÉRIVÉES
+# ============================================================
+
+sensor:
+
+  - platform: derivative
+    source: sensor.pellets_restants
+    name: conso_pellets_derivative
+    unique_id: conso_pellets_derivative
+    unit_time: h
+    round: 3
+    time_window: "00:10:00"
+
+  - platform: statistics
+    name: conso_pellets_24h
+    unique_id: conso_pellets_24h
+    entity_id: sensor.conso_pellets_kg_h_reel
+    state_characteristic: mean
+    max_age:
+      hours: 24
+
+  - platform: statistics
+    name: "Conso pellets kg 1h"
+    unique_id: conso_pellets_kg_1h
+    entity_id: sensor.conso_pellets_kg_h_reel
+    state_characteristic: mean
+    sampling_size: 60
+    max_age:
+      hours: 1
