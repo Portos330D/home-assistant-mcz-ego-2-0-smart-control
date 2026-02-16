@@ -1,0 +1,31 @@
+alias: 🔥 Flamme niveau 3
+description: Réglage flamme niveau 3 avec calibration max puis descente
+mode: single
+
+sequence:
+
+  # Calibration max
+  - repeat:
+      count: 5
+      sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.telecommande_poele_poele_haut
+        - delay: "00:00:00.4"
+        - action: switch.turn_off
+          target:
+            entity_id: switch.telecommande_poele_poele_haut
+        - delay: "00:00:01"
+
+  # Descente niveau 3
+  - repeat:
+      count: 2
+      sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.telecommande_poele_poele_bas
+        - delay: "00:00:00.4"
+        - action: switch.turn_off
+          target:
+            entity_id: switch.telecommande_poele_poele_bas
+        - delay: "00:00:01"
