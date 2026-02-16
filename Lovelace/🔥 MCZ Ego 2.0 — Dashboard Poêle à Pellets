@@ -1,0 +1,200 @@
+title: 🔥 Poêle
+path: poele
+icon: mdi:fire
+type: sections
+max_columns: 3
+
+#################################################
+
+🔥 MCZ Ego 2.0 — Dashboard Poêle à Pellets
+
+Auteur : Portos330D
+
+Projet : home-assistant-mcz-eco-2-0-smart-control
+
+Description :
+
+Dashboard complet de gestion :
+
+- Allumage sécurisé
+
+- Régulation automatique
+
+- Gestion pellets
+
+- Programmation matin / soir
+
+#################################################
+
+header:
+card:
+type: markdown
+content: >
+# 🔥 Gestion du Poêle à Pellets
+
+  Bonjour **{{ user }}** 😊  
+
+  Cette page centralise la **gestion complète du chauffage** :
+
+  - 🔥 Allumage / Extinction sécurisé  
+  - 🚀 Boost démarrage intelligent  
+  - 🌡️ Régulation automatique température  
+  - 🌪️ Gestion ventilation dynamique  
+  - 🪵 Adaptation puissance selon pellets  
+  - ⏰ Programmation horaire matin / soir  
+
+  ℹ️ Fonctionnement automatisé selon température, horaire et niveau pellets.
+
+background:
+opacity: 30
+alignment: center
+size: cover
+repeat: no-repeat
+attachment: fixed
+image: /local/pellet.jpg
+
+sections:
+
+#################################################
+
+🔎 ÉTAT GÉNÉRAL
+
+#################################################
+
+- cards:
+  
+  - type: heading
+    heading: 🔎 État général
+  
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+    
+    - type: tile
+      entity: binary_sensor.poele_en_chauffe
+      name: État Poêle
+      icon: mdi:fire
+    
+    - type: tile
+      entity: sensor.thermometre_salle_tv_temperature
+      name: Température
+    
+    - type: tile
+      entity: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+      name: Pellets %
+    
+    - type: tile
+      entity: input_boolean.boost_poele_actif
+      name: Boost actif
+    
+    - type: tile
+      entity: counter.sacs_pellets_consommes
+      name: Sacs consommés
+    
+    - type: tile
+      entity: sensor.autonomie_pellets_moyenne_24h
+      name: Autonomie
+
+#################################################
+
+🎮 COMMANDES
+
+#################################################
+
+- cards:
+  
+  - type: heading
+    heading: 🎮 Commandes
+  
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+    
+    - type: button
+      name: 🔥 ON / OFF
+      icon: mdi:fire
+      hold_action:
+      action: call-service
+      service: script.turn_on
+      target:
+      entity_id: script.poele_on_off_securise
+    
+    - type: button
+      name: 🚀 Boost
+      icon: mdi:rocket-launch
+      hold_action:
+      action: call-service
+      service: script.boost_demarrage_poele_adaptatif
+    
+    - type: button
+      name: 🔄 Initialisation
+      icon: mdi:cog-refresh
+      hold_action:
+      action: call-service
+      service: script.calibration_complete_poele
+
+#################################################
+
+🌡️ CONSIGNES
+
+#################################################
+
+- cards:
+  
+  - type: heading
+    heading: 🌡️ Pilotage thermique
+  
+  - type: entities
+    entities:
+    
+    - entity: input_number.temperature_cible_poele
+      name: 🌡️ Consigne température
+    
+    - entity: sensor.temps_chauffe_estime_poele
+      name: ⏱️ Temps chauffe estimé
+    
+    - entity: sensor.heure_demarrage_calculee_poele
+      name: 🕒 Démarrage calculé matin
+    
+    - entity: sensor.heure_demarrage_calculee_poele_soir
+      name: 🕒 Démarrage calculé soir
+
+#################################################
+
+🧠 AUTOMATISATIONS
+
+#################################################
+
+- cards:
+  
+  - type: heading
+    heading: 🧠 Gestion intelligente
+  
+  - type: entities
+    entities:
+    
+    - type: section
+      label: 🔥🌪️ Régulation
+    
+    - entity: automation.poele_gestion_flamme_ventilation_intelligente_fusion
+      name: Gestion fusionnée
+    
+    - type: section
+      label: 🌅 Cycle matin
+    
+    - entity: automation.poele_demarrage_matin_full_adaptatif_2
+      name: Démarrage matin
+    
+    - entity: automation.poele_arret_matin_programme
+      name: Arrêt matin
+    
+    - type: section
+      label: 🌙 Cycle soir
+    
+    - entity: automation.poele_demarrage_soir_full_adaptatif_2
+      name: Démarrage soir
+    
+    - entity: automation.poele_arret_soir_full_adaptatif
+      name: Arrêt soir
