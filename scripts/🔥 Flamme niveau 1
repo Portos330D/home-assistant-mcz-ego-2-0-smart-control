@@ -1,0 +1,25 @@
+alias: 🔥 Flamme niveau 1
+mode: single
+sequence:
+  - repeat:
+      count: 5
+      sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.telecommande_poele_poele_haut
+        - delay: "00:00:00.4"
+        - action: switch.turn_off
+          target:
+            entity_id: switch.telecommande_poele_poele_haut
+        - delay: "00:00:01"
+  - repeat:
+      count: 4
+      sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.telecommande_poele_poele_bas
+        - delay: "00:00:00.4"
+        - action: switch.turn_off
+          target:
+            entity_id: switch.telecommande_poele_poele_bas
+        - delay: "00:00:01"
