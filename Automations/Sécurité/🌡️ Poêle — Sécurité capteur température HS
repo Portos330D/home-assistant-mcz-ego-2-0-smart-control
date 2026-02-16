@@ -1,0 +1,25 @@
+alias: 🌡️ Poêle — Sécurité capteur température HS
+description: >
+  Si capteur température indisponible,
+  utilise la consigne comme valeur fallback
+
+triggers:
+  - trigger: state
+    entity_id: sensor.temperature_salon_securisee
+
+conditions:
+  - condition: template
+    value_template: >
+      {{ states('sensor.temperature_salon_securisee')
+         in ['unknown','unavailable','none'] }}
+
+actions:
+  - action: telegram_bot.send_message
+    data:
+      message: >
+        ⚠️ Capteur température indisponible
+
+        Bascule en mode sécurité
+        avec consigne par défaut.
+
+mode: single
