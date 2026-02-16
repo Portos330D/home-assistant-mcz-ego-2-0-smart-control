@@ -32,7 +32,7 @@ Rendre un poêle **MCZ EGO 2.0 non connecté** entièrement domotisable grâce �
 
 ## 🧰 Matériel utilisé
 
-### 🔌 Optocoupleur
+### 🔌 Optocoupleur 
 
 **Rôle :**  
 Permet d’isoler électriquement les commandes envoyées par l’ESP / relais vers la télécommande RF du poêle MCZ.
