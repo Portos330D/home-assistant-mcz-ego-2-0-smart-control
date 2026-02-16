@@ -1,0 +1,36 @@
+alias: 🌪️ Ventilation 2
+mode: single
+sequence:
+  - target:
+      entity_id: switch.telecommande_poele_poele_set
+    action: switch.turn_on
+  - delay: "00:00:00.5"
+  - target:
+      entity_id: switch.telecommande_poele_poele_set
+    action: switch.turn_off
+  - delay: "00:00:01"
+  - repeat:
+      count: 5
+      sequence:
+        - target:
+            entity_id: switch.telecommande_poele_poele_haut
+          action: switch.turn_on
+        - delay: "00:00:00.4"
+        - target:
+            entity_id: switch.telecommande_poele_poele_haut
+          action: switch.turn_off
+        - delay: "00:00:00.8"
+  - repeat:
+      count: 4
+      sequence:
+        - target:
+            entity_id: switch.telecommande_poele_poele_bas
+          action: switch.turn_on
+        - delay: "00:00:00.4"
+        - target:
+            entity_id: switch.telecommande_poele_poele_bas
+          action: switch.turn_off
+        - delay: "00:00:00.8"
+  - delay: "00:00:06"
+description: ""
+
