@@ -323,7 +323,7 @@ Support compatible VL53L0X imprimé en 3D permettant :
 - Maintien de l’angle de mesure
 
 **🔗 Modèle Thingiverse :**  
-https://www.thingiverse.com/b487a4c7-b92a-4e0d-969d-48f4934fa842
+(https://www.thingiverse.com/thing:6965616)
 
 ---
 
