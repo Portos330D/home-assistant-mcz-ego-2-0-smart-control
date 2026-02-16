@@ -1,0 +1,12 @@
+alias: 🌪️ Ventilation – Ouvrir menu
+mode: single
+sequence:
+  - target:
+      entity_id: switch.telecommande_poele_poele_set
+    action: switch.turn_on
+  - delay: "00:00:02"
+  - target:
+      entity_id: switch.telecommande_poele_poele_set
+    action: switch.turn_off
+description: ""
+
