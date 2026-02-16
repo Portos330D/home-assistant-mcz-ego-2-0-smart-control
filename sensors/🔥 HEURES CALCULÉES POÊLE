@@ -1,0 +1,70 @@
+# ============================================================
+# 🔥 HEURES CALCULÉES POÊLE
+# ============================================================
+
+template:
+
+  - sensor:
+
+      # --------------------------------------------------------
+      # 🕒 DÉMARRAGE MATIN
+      # --------------------------------------------------------
+      - name: "Heure démarrage calculée poêle"
+        unique_id: heure_demarrage_calculee_poele
+        icon: mdi:clock-start
+        state: >
+          {% set semaine = states('input_datetime.heure_cible_matin_semaine')[0:5] %}
+          {% set weekend = states('input_datetime.heure_cible_matin_week_end')[0:5] %}
+          {% set cible = weekend if now().weekday() >= 5 else semaine %}
+          {% set chauffe = states('sensor.temps_chauffe_estime_poele') | int(0) %}
+
+          {% set h = cible.split(':')[0] | int %}
+          {% set m = cible.split(':')[1] | int %}
+          {% set total = (h*60 + m - chauffe) | int %}
+
+          {% if total < 0 %}
+            {% set total = 0 %}
+          {% endif %}
+
+          {% set hh = (total // 60) %}
+          {% set mm = (total % 60) %}
+          {{ "%02d:%02d" | format(hh, mm) }}
+
+      # --------------------------------------------------------
+      # 🕒 DÉMARRAGE SOIR
+      # --------------------------------------------------------
+      - name: "Heure démarrage calculée poêle soir"
+        unique_id: heure_demarrage_calculee_poele_soir
+        icon: mdi:clock-start
+        state: >
+          {% set cible = states('input_datetime.heure_cible_confort_soir')[0:5] %}
+          {% set chauffe = states('sensor.temps_chauffe_estime_poele') | int(0) %}
+
+          {% set h = cible.split(':')[0] | int %}
+          {% set m = cible.split(':')[1] | int %}
+          {% set total = (h*60 + m - chauffe) | int %}
+
+          {% if total < 0 %}
+            {% set total = 0 %}
+          {% endif %}
+
+          {% set hh = (total // 60) %}
+          {% set mm = (total % 60) %}
+          {{ "%02d:%02d" | format(hh, mm) }}
+
+      # --------------------------------------------------------
+      # 🛑 ARRÊT MATIN
+      # --------------------------------------------------------
+      - name: "Heure arrêt poêle matin"
+        unique_id: heure_arret_poele_matin
+        icon: mdi:clock-end
+        state: >
+          {% set wd = now().weekday() %}
+
+          {% if wd in [5,6] %}
+            {% set heure = states('input_datetime.arret_matin_week_end')[0:5] %}
+          {% else %}
+            {% set heure = states('input_datetime.arret_matin_semaine')[0:5] %}
+          {% endif %}
+
+          {{ heure if heure != 'unknown' else '08:00' }}
