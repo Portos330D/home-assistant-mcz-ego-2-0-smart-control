@@ -1,0 +1,47 @@
+alias: 🌪️ Ventilation 3
+description: Réglage ventilation niveau 3 avec calibration max puis descente
+mode: single
+
+sequence:
+
+  # Entrée menu ventilation
+  - action: switch.turn_on
+    target:
+      entity_id: switch.telecommande_poele_poele_set
+
+  - delay: "00:00:00.5"
+
+  - action: switch.turn_off
+    target:
+      entity_id: switch.telecommande_poele_poele_set
+
+  - delay: "00:00:01"
+
+  # Calibration max
+  - repeat:
+      count: 5
+      sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.telecommande_poele_poele_haut
+        - delay: "00:00:00.4"
+        - action: switch.turn_off
+          target:
+            entity_id: switch.telecommande_poele_poele_haut
+        - delay: "00:00:00.8"
+
+  # Descente niveau 3
+  - repeat:
+      count: 3
+      sequence:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.telecommande_poele_poele_bas
+        - delay: "00:00:00.4"
+        - action: switch.turn_off
+          target:
+            entity_id: switch.telecommande_poele_poele_bas
+        - delay: "00:00:00.8"
+
+  # Sortie menu auto
+  - delay: "00:00:06"
