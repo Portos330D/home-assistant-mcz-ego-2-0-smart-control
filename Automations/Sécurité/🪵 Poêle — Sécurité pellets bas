@@ -1,0 +1,27 @@
+alias: 🪵 Poêle — Sécurité pellets bas
+description: >
+  Bloque le démarrage automatique si pellets < 10%
+
+triggers:
+  - trigger: state
+    entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+    below: 10
+
+  - condition: state
+    entity_id: binary_sensor.poele_en_chauffe
+    state: "off"
+
+actions:
+  - action: telegram_bot.send_message
+    data:
+      message: >
+        ⚠️ Démarrage poêle bloqué
+
+        Niveau pellets trop bas :
+        {{ states('sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige') }} %
+
+mode: single
