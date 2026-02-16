@@ -1,0 +1,20 @@
+alias: 🪵 Poêle — Reset notifications pellets
+description: >
+  Réinitialise l’alerte pellets après remplissage ou retour niveau OK
+
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.niveau_pellet_vl53l0x_niveau_pellets_corrige
+    above: 40
+
+condition:
+  - condition: state
+    entity_id: input_boolean.notification_pellets_envoyee
+    state: "on"
+
+action:
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.notification_pellets_envoyee
+
+mode: single
