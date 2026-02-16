@@ -1,18 +1,23 @@
-alias: ⏹️ Poêle — Arrêt soir programmé
+alias: ⏹️ Poêle — Arrêt soir FULL adaptatif
 description: >
-  Arrêt automatique soir selon horaire défini
-
+  Extinction automatique confort soir avec sécurité état poêle et anti double
+  déclenchement
 triggers:
-  - trigger: time
-    at: input_datetime.arret_poele_soir
-
+  - minutes: /1
+    trigger: time_pattern
 conditions:
   - condition: state
     entity_id: binary_sensor.poele_en_chauffe
     state: "on"
-
+  - condition: template
+    value_template: |
+      {{ now().strftime('%H:%M')
+         ==
+         states('input_datetime.arret_soir')[0:5] }}
+  - condition: template
+    value_template: |
+      {{ state_attr(this.entity_id,'last_triggered')
+         != now().date() }}
 actions:
   - action: script.poele_on_off_securise
-
 mode: single
-max_exceeded: silent
