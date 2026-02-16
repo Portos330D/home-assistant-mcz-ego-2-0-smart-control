@@ -1,0 +1,35 @@
+
+alias: 🔥 Poêle – ON/OFF sécurisé
+description: >
+  Allume ou éteint le poêle via télécommande RF
+  avec sécurité anti double-appui et anti reboot HA.
+
+mode: single
+max_exceeded: silent
+icon: mdi:fire
+
+sequence:
+
+  # Bloque si Home Assistant vient de redémarrer
+  - condition: state
+    entity_id: input_boolean.ha_en_redemarrage
+    state: "off"
+
+  # Anti spam : 5 min entre actions
+  - condition: template
+    value_template: >
+      {{ (as_timestamp(now()) -
+         as_timestamp(states('input_datetime.derniere_action_poele')))
+         > 300 }}
+
+  # Commande ON/OFF télécommande RF
+  - action: switch.turn_on
+    target:
+      entity_id: switch.telecommande_poele_poele_on_off
+
+  # Horodatage dernière action
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.derniere_action_poele
+    data:
+      datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
