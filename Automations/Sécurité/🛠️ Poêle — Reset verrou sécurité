@@ -1,26 +1,19 @@
-alias: 🛠️ Poêle — Reset verrou sécurité
-description: >
-  Déverrouille automatiquement le verrou IR
-  si bloqué plus de 2 minutes
-
+alias: 🔐 Poêle — Reset sécurité verrou IR
+description: Déblocage auto si verrou bloqué
 triggers:
   - trigger: time_pattern
-    minutes: "/1"
-
+    minutes: /2
 conditions:
   - condition: state
     entity_id: input_boolean.verrou_reglage_poele
     state: "on"
-
   - condition: template
-    value_template: >
+    value_template: |
       {{ (as_timestamp(now())
-          - as_timestamp(states('input_datetime.horodatage_verrou_poele')))
-          > 120 }}
-
+          - as_timestamp(states('input_datetime.horodatage_verrou_poele')
+          | default(0))) > 60 }}
 actions:
   - action: input_boolean.turn_off
     target:
       entity_id: input_boolean.verrou_reglage_poele
-
 mode: single
