@@ -310,7 +310,7 @@ Paramètres → Tableaux de bord → Ajouter une vue YAML
 
 Aperçu
 
-![Dashboard poêle](docs/images/Dashboard_ha.png)
+![Dashboard poêle](docs/images/dashboard_ha.png)
 ![Dashboard poêle](docs/images/Dashboard_ha_2.png)
 ![Dashboard poêle](docs/images/Dashboard_ha_3.png)
 ![Commandes_via Esp](docs/images/Commandes_telecommade.png)
