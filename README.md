@@ -396,6 +396,7 @@ Support compatible VL53L0X imprimé en 3D permettant :
 ### 📸 Exemple d’intégration
 
 Capteur installé dans la trémie avec support imprimé 3D, permettant une mesure continue du niveau de pellets sans modification du poêle. ![Capteur pellets VL53L0X](docs/images/vl53l0.jpg)
+![Entitées_Esp](docs/images/Sensor_niveau.png)
 
 ---
 
